@@ -6,228 +6,15 @@
 #include <iterator>
 #include <cstddef>
 
-__declspec(noinline) void* empty_make() { return nullptr; }
+#if BENCH_32
+#include "data_32.inc"
+#elif BENCH_64
+#include "data_64.inc"
+#elif BENCH_219
+#include "data_219.inc"
+#endif
 
-#define WINRT_ACTIVATION_TABLE(X)                                                                                       \
-    X(empty_make, L"Microsoft.UI.Private.Controls.AnimatedIconTestHooks")                     \
-    X(empty_make, L"Microsoft.UI.Private.Controls.ButtonInteraction")                         \
-    X(empty_make, L"Microsoft.UI.Private.Controls.DisplayRegionHelperTestApi")                \
-    X(empty_make, L"Microsoft.UI.Private.Controls.ItemsViewTestHooks")                        \
-    X(empty_make, L"Microsoft.UI.Private.Controls.LayoutsTestHooks")                          \
-    X(empty_make, L"Microsoft.UI.Private.Controls.MUXControlsTestHooks")                      \
-    X(empty_make, L"Microsoft.UI.Private.Controls.PullToRefreshHelperTestApi")                \
-    X(empty_make, L"Microsoft.UI.Private.Controls.RadioButtonsTestHooks")                     \
-    X(empty_make, L"Microsoft.UI.Private.Controls.RepeaterTestHooks")                         \
-    X(empty_make, L"Microsoft.UI.Private.Controls.ScrollPresenterTestHooks")                  \
-    X(empty_make, L"Microsoft.UI.Private.Controls.ScrollViewTestHooks")                       \
-    X(empty_make, L"Microsoft.UI.Private.Controls.ScrollViewerIRefreshInfoProviderAdapter")   \
-    X(empty_make, L"Microsoft.UI.Private.Controls.SelectorBarTestHooks")                      \
-    X(empty_make, L"Microsoft.UI.Private.Controls.SliderInteraction")                         \
-    X(empty_make, L"Microsoft.UI.Private.Controls.SpectrumBrush")                             \
-    X(empty_make, L"Microsoft.UI.Private.Controls.SplitButtonTestApi")                        \
-    X(empty_make, L"Microsoft.UI.Private.Controls.SwipeTestHooks")                            \
-    X(empty_make, L"Microsoft.UI.Private.Controls.TeachingTipTestHooks")                      \
-    X(empty_make, L"Microsoft.UI.Private.Media.AcrylicTestApi")                               \
-    X(empty_make, L"Microsoft.UI.Private.Media.MaterialHelperTestApi")                        \
-    X(empty_make, L"Microsoft.UI.Private.Media.RevealBorderLight")                            \
-    X(empty_make, L"Microsoft.UI.Private.Media.RevealBrushTestApi")                           \
-    X(empty_make, L"Microsoft.UI.Private.Media.RevealHoverLight")                             \
-    X(empty_make, L"Microsoft.UI.Private.Media.RevealTestApi")                                \
-    X(empty_make, L"Microsoft.UI.Private.Media.XamlAmbientLight")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.AnimatedVisualPlayerAutomationPeer")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.BreadcrumbBarItemAutomationPeer")      \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ColorPickerSliderAutomationPeer")      \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ColorSpectrumAutomationPeer")          \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.DropDownButtonAutomationPeer")         \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ExpanderAutomationPeer")               \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InfoBarAutomationPeer")                \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InkCanvasAutomationPeer")              \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InkToolbarAutomationPeer")             \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InkToolbarFlyoutItemAutomationPeer")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InkToolbarMenuButtonAutomationPeer")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.InkToolbarToolButtonAutomationPeer")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ItemContainerAutomationPeer")          \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ItemsViewAutomationPeer")              \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.MenuBarAutomationPeer")                \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.MenuBarItemAutomationPeer")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.NavigationViewAutomationPeer")         \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.NavigationViewItemAutomationPeer")     \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.NumberBoxAutomationPeer")              \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.PagerControlAutomationPeer")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.PersonPictureAutomationPeer")          \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.PipsPagerAutomationPeer")              \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ProgressBarAutomationPeer")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ProgressRingAutomationPeer")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.RadioButtonsAutomationPeer")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.RatingControlAutomationPeer")          \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.RepeaterAutomationPeer")               \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ScrollPresenterAutomationPeer")        \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.SelectorBarItemAutomationPeer")        \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.SplitButtonAutomationPeer")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TabViewAutomationPeer")                \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TabViewItemAutomationPeer")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TeachingTipAutomationPeer")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.ToggleSplitButtonAutomationPeer")      \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TreeViewItemAutomationPeer")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TreeViewItemDataAutomationPeer")       \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.TreeViewListAutomationPeer")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Automation.Peers.WebView2AutomationPeer")               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedIcon")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedIconSource")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisualPlayer")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedAcceptVisualSource")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedBackVisualSource")     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronDownSmallVisualSource")        \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronRightDownSmallVisualSource")   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronUpDownSmallVisualSource")      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedFindVisualSource")     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedGlobalNavigationButtonVisualSource")  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedSettingsVisualSource") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnnotatedScrollBar")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.AnnotatedScrollBarLabel")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.BreadcrumbBar")                                \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.BreadcrumbBarItem")                            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ColorPicker")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.CommandBarFlyout")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.DropDownButton")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ElementFactory")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Expander")                                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.FlowLayout")                                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.FlowLayoutState")                              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ImageIcon")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ImageIconSource")                              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.IndexPath")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InfoBadge")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InfoBadgeTemplateSettings")                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InfoBar")                                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InfoBarTemplateSettings")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkCanvas")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbar")                                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarBallpointPenButton")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarCustomPen")                          \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarCustomPenButton")                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarCustomToggleButton")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarCustomToolButton")                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarEraserButton")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarFlyoutItem")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarHighlighterButton")                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarMenuButton")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarPenButton")                          \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarPenConfigurationControl")            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarPencilButton")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarRulerButton")                        \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarStencilButton")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.InkToolbarToolButton")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider")             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemContainer")                                \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemsRepeater")                                \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemsRepeaterScrollHost")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemsSourceView")                              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ItemsView")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.LayoutPanel")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.LinedFlowLayout")                              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.LinedFlowLayoutItemCollectionTransitionProvider") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MapControl")                                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MapElementsLayer")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MapIcon")                                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MenuBar")                                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MenuBarItem")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.MenuBarItemFlyout")                            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationView")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewItem")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewItemBase")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewItemHeader")                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator")                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings")               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NonVirtualizingLayout")                        \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NonVirtualizingLayoutContext")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.NumberBox")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.PagerControl")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.PagerControlTemplateSettings")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ParallaxView")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.PersonPicture")                                \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.PipsPager")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper")              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ColorPickerSlider")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum")                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ColumnMajorUniformToLargestGridLayout") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ComboBoxHelper")                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBar")        \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBarAutomationProperties") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.CornerRadiusFilterConverter")       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.CornerRadiusToThicknessConverter")  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.InfoBarPanel")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.MonochromaticOverlayPresenter")     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.NavigationViewItemPresenter")       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.NavigationViewItemPresenterTemplateSettings") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.RepeatedScrollSnapPoint")           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.RepeatedZoomSnapPoint")             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerAddScrollVelocityRequestedEventArgs") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerPanRequestedEventArgs") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerScrollByRequestedEventArgs") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerScrollToRequestedEventArgs") \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter")                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ScrollSnapPoint")                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.TabViewListView")                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.Primitives.ZoomSnapPoint")                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ProgressBar")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ProgressRing")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RadioButtons")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RadioMenuFlyoutItem")                          \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RatingControl")                                \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RatingItemFontInfo")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RatingItemImageInfo")                          \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RatingItemInfo")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RecyclePool")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RecyclingElementFactory")                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RefreshContainer")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RefreshVisualizer")                            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.RevealListViewItemPresenter")                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ScrollView")                                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ScrollingScrollOptions")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ScrollingZoomOptions")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SelectionModel")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SelectorBar")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SelectorBarItem")                              \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SplitButton")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.StackLayout")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.StackLayoutState")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SwipeControl")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SwipeItem")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SwipeItems")                                   \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.SystemBackdropElement")                        \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TabView")                                      \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TabViewItem")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TabViewItemTemplateSettings")                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TeachingTip")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TeachingTipTemplateSettings")                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TextCommandBarFlyout")                         \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TitleBar")                                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TitleBarAutomationPeer")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TitleBarTemplateSettings")                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.ToggleSplitButton")                            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TreeView")                                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TreeViewItem")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TreeViewItemTemplateSettings")                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TreeViewList")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TreeViewNode")                                 \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.TwoPaneView")                                  \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.UniformGridLayout")                            \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.UniformGridLayoutState")                       \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.VirtualizingLayout")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.VirtualizingLayoutContext")                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.WebView2")                                     \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.WrapPanel")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Controls.XamlControlsResources")                        \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.AcrylicBrush")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.DesktopAcrylicBackdrop")                          \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.MicaBackdrop")                                    \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.RadialGradientBrush")                             \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.RevealBackgroundBrush")                           \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.RevealBorderBrush")                               \
-    X(empty_make, L"Microsoft.UI.Xaml.Media.RevealBrush")                                     \
-    X(empty_make, L"Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider")
+__declspec(noinline) void* empty_make() { return nullptr; }
 
 void* original_lookup(std::wstring_view const& name) {
     auto requal = [](std::wstring_view const& left, std::wstring_view const& right) noexcept {
@@ -236,7 +23,6 @@ void* original_lookup(std::wstring_view const& name) {
 
 #define WINRT_IF(func, str) if (requal(name, str)) { return func(); }
     WINRT_ACTIVATION_TABLE(WINRT_IF)
-#undef WINRT_IF
 
     return nullptr;
 }
@@ -244,14 +30,12 @@ void* binary_lookup(std::wstring_view const& name) {
     static constexpr std::wstring_view names[] = {
 #define WINRT_NAME(func, str) str,
         WINRT_ACTIVATION_TABLE(WINRT_NAME)
-#undef WINRT_NAME
     };
 
     using make_t = void* (*)();
     static constexpr make_t makes[] = {
-#define WINRT_func(func, str) func,
-        WINRT_ACTIVATION_TABLE(WINRT_func)
-#undef WINRT_func
+#define WINRT_FUNC(func, str) func,
+        WINRT_ACTIVATION_TABLE(WINRT_FUNC)
     };
 
     auto it = std::lower_bound(std::begin(names), std::end(names), name);
@@ -264,7 +48,6 @@ void* binary_lookup(std::wstring_view const& name) {
 static constexpr std::wstring_view probe[] = {
 #define WINRT_PROBE(func, str) str,
     WINRT_ACTIVATION_TABLE(WINRT_PROBE)
-#undef WINRT_PROBE
 };
 
 static void BM_Original(benchmark::State& state) {
